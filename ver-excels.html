@@ -1,0 +1,497 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mis Archivos Excel</title>
+    <link rel="stylesheet" href="/styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #461414;
+            --primary-light: #dbeafe;
+            --primary-dark: #471717;
+            --secondary: #10b981;
+            --accent: #f43f5e;
+            --warning: #f59e0b;
+            --caution: #facc15;
+            --danger: #e63946;
+            --light: #f8fafc;
+            --dark: #0f172a;
+            --gray: #64748b;
+            --light-gray: #e2e8f0;
+            --card-bg: #ffffff;
+            --border-radius: 16px;
+            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: #f1f5f9;
+            color: var(--dark);
+            line-height: 1.6;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        /* Menú idéntico al segundo archivo */
+        #navbar {
+            background-color: var(--card-bg);
+            padding: 0 40px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            box-shadow: var(--shadow);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            min-height: 80px;
+            border-bottom: 1px solid var(--light-gray);
+            max-width: 1200px;
+            margin: 0 auto;
+            width: 100%;
+        }
+
+        #navbar ul {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            justify-content: flex-end;
+        }
+
+        #navbar li a {
+            color: var(--dark);
+            text-decoration: none;
+            padding: 10px 15px;
+            border-radius: var(--border-radius);
+            transition: var(--transition);
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 14px;
+            white-space: nowrap;
+        }
+
+        #navbar li a:hover {
+            background-color: var(--primary-light);
+            color: var(--primary);
+        }
+
+        #navbar li a.active {
+            background-color: var(--primary);
+            color: white;
+        }
+
+        /* Logo idéntico al segundo archivo */
+        .logo {
+            font-weight: 700;
+            font-size: 1.4rem;
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px 0;
+        }
+
+        .logo i {
+            font-size: 1.6rem;
+        }
+
+        /* Contenedor principal idéntico al segundo archivo */
+        .documentos-container {
+            max-width: 800px;
+            width: 100%;
+            margin: 40px auto;
+            padding: 40px;
+            background: var(--card-bg);
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+            border: 1px solid var(--light-gray);
+        }
+
+        h1 {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+            color: var(--dark);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        h1 i {
+            color: var(--primary);
+        }
+
+        /* Tabla con estilos minimalistas como en el segundo archivo */
+        .documentos-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 30px 0;
+            background-color: var(--card-bg);
+            border-radius: var(--border-radius);
+            overflow: hidden;
+            box-shadow: var(--shadow);
+        }
+
+        .documentos-table th, .documentos-table td {
+            padding: 16px 20px;
+            text-align: left;
+            border-bottom: 1px solid var(--light-gray);
+        }
+
+        .documentos-table th {
+            background-color: var(--primary);
+            color: white;
+            font-weight: 500;
+        }
+
+        .documentos-table tr:hover {
+            background-color: var(--light);
+        }
+
+        /* Botones idénticos al segundo archivo */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 20px;
+            border-radius: var(--border-radius);
+            text-decoration: none;
+            font-weight: 500;
+            transition: var(--transition);
+            border: none;
+            cursor: pointer;
+            font-size: 14px;
+            box-shadow: var(--shadow);
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .btn-primary {
+            background-color: var(--primary);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background-color: var(--primary-dark);
+        }
+
+        .btn-secondary {
+            background-color: var(--secondary);
+            color: white;
+        }
+
+        .btn-secondary:hover {
+            background-color: #059669;
+        }
+
+        .btn-danger {
+            background-color: var(--danger);
+            color: white;
+        }
+
+        .btn-danger:hover {
+            background-color: #c53030;
+        }
+
+        /* Estilos adicionales específicos de esta página */
+        .file-size {
+            color: var(--gray);
+            font-size: 0.9em;
+        }
+
+        .file-date {
+            color: var(--gray);
+            font-size: 0.9em;
+        }
+
+        .btn-container {
+            display: flex;
+            justify-content: flex-end;
+            margin-bottom: 20px;
+            gap: 12px;
+        }
+
+        .upload-new-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 12px 24px;
+            background-color: var(--primary);
+            color: white;
+            border-radius: var(--border-radius);
+            text-decoration: none;
+            margin-top: 20px;
+            transition: var(--transition);
+            font-weight: 500;
+            box-shadow: var(--shadow);
+        }
+
+        .upload-new-btn:hover {
+            background-color: var(--primary-dark);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .boton-volver {
+            display: inline-block;
+            margin-top: 20px;
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: 500;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .boton-volver:hover {
+            color: var(--primary-dark);
+            text-decoration: underline;
+        }
+
+        /* Footer idéntico al segundo archivo */
+        footer {
+            background-color: var(--dark);
+            color: white;
+            padding: 30px 0;
+            text-align: center;
+            margin-top: auto;
+        }
+
+        .footer-container {
+            max-width: 1200px;
+            width: 100%;
+            margin: 0 auto;
+            padding: 0 40px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .footer-links {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .footer-links a {
+            color: var(--light-gray);
+            text-decoration: none;
+            transition: var(--transition);
+        }
+
+        .footer-links a:hover {
+            color: white;
+        }
+
+        .copyright {
+            font-size: 0.9rem;
+            color: var(--gray);
+        }
+
+        /* Responsive idéntico al segundo archivo */
+        @media (max-width: 768px) {
+            .documentos-container {
+                padding: 30px;
+                margin: 20px auto;
+            }
+            
+            .btn-container {
+                flex-direction: column;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .documentos-container {
+                padding: 20px;
+                margin: 15px;
+            }
+            
+            h1 {
+                font-size: 1.6rem;
+            }
+            
+            .btn, .upload-new-btn {
+                padding: 10px 16px;
+                font-size: 14px;
+                width: 100%;
+                justify-content: center;
+            }
+
+            .documentos-table td {
+                padding: 12px 8px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div id="navbar">
+        <div class="logo">
+            <i class="fas fa-file-excel"></i>
+            <span>Excel Manager</span>
+        </div>
+        <ul>
+            <!-- Se llenará dinámicamente con JavaScript -->
+        </ul>
+    </div>
+    
+    <div class="documentos-container">
+        <h1><i class="fas fa-file-excel"></i> Mis Archivos Excel</h1>
+        
+        <div class="btn-container">
+            <button class="btn btn-primary" onclick="location.reload()">
+                <i class="fas fa-sync-alt"></i> Actualizar
+            </button>
+        </div>
+        
+        <table class="documentos-table">
+            <thead>
+                <tr>
+                    <th>Nombre</th>
+                    <th>Tamaño</th>
+                    <th>Fecha</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody id="excel-files">
+                <!-- Los archivos se cargarán dinámicamente -->
+                <tr>
+                    <td colspan="4" style="text-align: center;">Cargando archivos...</td>
+                </tr>
+            </tbody>
+        </table>
+        
+        <a href="/subir-excel" class="upload-new-btn">
+            <i class="fas fa-upload"></i> Subir Nuevo Archivo Excel
+        </a>
+        
+        <a href="/" class="boton-volver"><i class="fas fa-arrow-left"></i> Volver al inicio</a>
+    </div>
+    
+
+    <footer>
+        <div class="footer-container">
+            <div class="footer-links">
+                <a href="#"><i class="fas fa-info-circle"></i> Acerca de</a>
+                <a href="#"><i class="fas fa-envelope"></i> Contacto</a>
+                <a href="#"><i class="fas fa-shield-alt"></i> Privacidad</a>
+                <a href="#"><i class="fas fa-file-alt"></i> Términos</a>
+            </div>
+            <div class="copyright">
+                &copy; 2025 Sistema de Gestión de Documentos. Todos los derechos reservados.
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Cargar navbar
+            fetch('navbar.html')
+                .then(response => response.text())
+                .then(data => {
+                    document.getElementById('navbar').innerHTML = data;
+                })
+                .catch(error => {
+                    console.error('Error al cargar el navbar:', error);
+                });
+            
+            // Cargar archivos Excel
+            fetch('/api/mis-excels', {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json'
+                }
+            })
+            .then(response => response.json())
+            .then(data => {
+                const tbody = document.getElementById('excel-files');
+                
+                if (data.length === 0) {
+                    tbody.innerHTML = `
+                        <tr>
+                            <td colspan="4" style="text-align: center;">No tienes archivos Excel subidos aún.</td>
+                        </tr>
+                    `;
+                    return;
+                }
+                
+                tbody.innerHTML = '';
+                
+                data.forEach(file => {
+                    const sizeMB = (file.tamaño / (1024 * 1024)).toFixed(2);
+                    const date = new Date(file.fecha_subida).toLocaleString();
+                    
+                    const row = document.createElement('tr');
+                    row.innerHTML = `
+                        <td>${file.nombre_original}</td>
+                        <td class="file-size">${sizeMB} MB</td>
+                        <td class="file-date">${date}</td>
+                        <td>
+                            <a href="/descargar-excel/${file.id}" class="btn btn-secondary">
+                                <i class="fas fa-download"></i> Descargar
+                            </a>
+                            <a href="/preview-excel/${file.id}" class="btn btn-primary">
+                                <i class="fas fa-eye"></i> Vista Previa
+                            </a>
+                            <button onclick="eliminarExcel(${file.id})" class="btn btn-danger">
+                                <i class="fas fa-trash-alt"></i> Eliminar
+                            </button>
+                        </td>
+                    `;
+                    tbody.appendChild(row);
+                });
+            })
+            .catch(error => {
+                console.error('Error al cargar archivos Excel:', error);
+                document.getElementById('excel-files').innerHTML = `
+                    <tr>
+                        <td colspan="4" style="text-align: center; color: var(--danger);">
+                            Error al cargar los archivos. Intenta recargar la página.
+                        </td>
+                    </tr>
+                `;
+            });
+        });
+        
+        function eliminarExcel(fileId) {
+            if (confirm('¿Estás seguro de que quieres eliminar este archivo Excel? Esta acción no se puede deshacer.')) {
+                fetch(`/eliminar-excel/${fileId}`, {
+                    method: 'DELETE'
+                })
+                .then(response => {
+                    if (response.ok) {
+                        location.reload();
+                    } else {
+                        alert('Error al eliminar el archivo');
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('Error al eliminar el archivo');
+                });
+            }
+        }
+    </script>
+</body>
+</html>
