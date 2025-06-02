@@ -1,0 +1,675 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BioMed Manager</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #420909;
+            --primary-light: #dbeafe;
+            --primary-dark: #391616;
+            --secondary: #381212;
+            --accent: #692121;
+            --light: #f8fafc;
+            --dark: #2a0f0f;
+            --gray: #64748b;
+            --light-gray: #e2e8f0;
+            --card-bg: #ffffff;
+            --border-radius: 16px;
+            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: #f1f5f9;
+            color: var(--dark);
+            line-height: 1.6;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        /* Menú mejorado */
+        #menu {
+            background-color: var(--card-bg);
+            padding: 0 40px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            box-shadow: var(--shadow);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            min-height: 80px;
+            border-bottom: 1px solid var(--light-gray);
+            max-width: 1200px;
+            margin: 0 auto;
+            width: 100%;
+        }
+
+        #menu ul {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            justify-content: flex-end;
+        }
+
+        #menu li a {
+            color: var(--dark);
+            text-decoration: none;
+            padding: 10px 15px;
+            border-radius: var(--border-radius);
+            transition: var(--transition);
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 14px;
+            white-space: nowrap;
+        }
+
+        #menu li a:hover {
+            background-color: var(--primary-light);
+            color: var(--primary);
+        }
+
+        #menu li a.active {
+            background-color: var(--primary);
+            color: white;
+        }
+
+        /* Logo mejorado */
+        .logo {
+            font-weight: 700;
+            font-size: 1.4rem;
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px 0;
+        }
+
+        .logo i {
+            font-size: 1.6rem;
+        }
+
+        header {
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            color: white;
+            padding: 100px 0;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            clip-path: ellipse(100% 100% at 50% 0%);
+        }
+
+        header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(circle at 20% 30%, rgba(255,255,255,0.1) 0%, transparent 50%);
+        }
+
+        .container {
+            max-width: 1200px;
+            width: 100%;
+            margin: 0 auto;
+            padding: 0 20px;
+            flex: 1;
+        }
+
+        header .container {
+            padding: 0 70px;
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 3rem;
+            font-weight: 700;
+            position: relative;
+            margin-bottom: 20px;
+            line-height: 1.2;
+        }
+
+        header p {
+            font-size: 1.25rem;
+            max-width: 700px;
+            margin: 0 auto;
+            opacity: 0.9;
+            position: relative;
+            line-height: 1.6;
+            margin-bottom: 30px;
+        }
+
+        .dashboard {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 30px;
+            margin: 60px 0;
+        }
+
+        .module-card {
+            background-color: var(--card-bg);
+            border-radius: var(--border-radius);
+            padding: 30px;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+            position: relative;
+            overflow: hidden;
+            border: 1px solid var(--light-gray);
+        }
+
+        .module-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-lg);
+            border-color: var(--primary-light);
+        }
+
+        .module-card h2 {
+            color: var(--dark);
+            margin-top: 0;
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-weight: 600;
+        }
+
+        .module-card h2 i {
+            color: var(--primary);
+        }
+
+        .module-card p {
+            color: var(--gray);
+            margin-bottom: 25px;
+            font-size: 15px;
+            line-height: 1.7;
+        }
+
+        .module-card .icon-container {
+            width: 60px;
+            height: 60px;
+            background-color: var(--primary-light);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 20px;
+            color: var(--primary);
+            font-size: 24px;
+        }
+
+        .btn-group {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background-color: var(--primary);
+            color: white;
+            padding: 12px 20px;
+            border-radius: var(--border-radius);
+            text-decoration: none;
+            font-weight: 500;
+            transition: var(--transition);
+            border: none;
+            cursor: pointer;
+            font-size: 15px;
+            border: 1px solid transparent;
+        }
+
+        .btn:hover {
+            background-color: var(--primary-dark);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(37, 99, 235, 0.3);
+        }
+
+        .btn-accent {
+            background-color: var(--accent);
+        }
+
+        .btn-accent:hover {
+            background-color: #e11d48;
+        }
+
+        .btn-secondary {
+            background-color: var(--secondary);
+        }
+
+        .btn-secondary:hover {
+            background-color: #059669;
+        }
+
+        .stats-bar {
+            background: linear-gradient(135deg, var(--dark), #1e293b);
+            color: white;
+            padding: 60px 0;
+            margin: 80px 0;
+            border-radius: var(--border-radius);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .stats-bar::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiPjxkZWZzPjxwYXR0ZXJuIGlkPSJwYXR0ZXJuIiB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHBhdHRlcm5Vbml0cz0idXNlclNwYWNlT25Vc2UiIHBhdHRlcm5UcmFuc2Zvcm09InJvdGF0ZSg0NSkiPjxyZWN0IHdpZHRoPSIyMCIgaGVpZ2h0PSIyMCIgZmlsbD0icmdiYSgyNTUsMjU1LDI1NSwwLjAzKSIvPjwvcGF0dGVybj48L2RlZnM+PHJlY3QgZmlsbD0idXJsKCNwYXR0ZXJuKSIgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIvPjwvc3ZnPg==');
+        }
+
+        .stats-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 30px;
+            position: relative;
+        }
+
+        .stat-item {
+            text-align: center;
+            padding: 25px;
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: var(--border-radius);
+            backdrop-filter: blur(10px);
+            transition: var(--transition);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .stat-item:hover {
+            transform: translateY(-5px);
+            background-color: rgba(255, 255, 255, 0.15);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.2);
+        }
+
+        .stat-icon {
+            font-size: 2rem;
+            margin-bottom: 15px;
+            color: white;
+            opacity: 0.8;
+        }
+
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: white;
+            margin: 10px 0;
+            font-feature-settings: "tnum";
+        }
+
+        .stat-label {
+            font-size: 1rem;
+            color: rgba(255, 255, 255, 0.8);
+            letter-spacing: 0.5px;
+        }
+
+        footer {
+            background-color: var(--dark);
+            color: white;
+            padding: 30px 0;
+            text-align: center;
+            margin-top: auto;
+        }
+
+        .footer-container {
+            max-width: 1200px;
+            width: 100%;
+            margin: 0 auto;
+            padding: 0 40px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .footer-links {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .footer-links a {
+            color: var(--light-gray);
+            text-decoration: none;
+            transition: var(--transition);
+        }
+
+        .footer-links a:hover {
+            color: white;
+        }
+
+        .copyright {
+            font-size: 0.9rem;
+            color: var(--gray);
+        }
+
+        @media (max-width: 992px) {
+            #menu {
+                padding: 0 20px;
+            }
+            
+            #menu ul {
+                gap: 8px;
+            }
+            
+            #menu li a {
+                padding: 8px 12px;
+                font-size: 13px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            header {
+                padding: 90px 0;
+                clip-path: ellipse(150% 100% at 50% 0%);
+            }
+            
+            header h1 {
+                font-size: 2.2rem;
+            }
+            
+            .dashboard {
+                grid-template-columns: 1fr;
+            }
+            
+            .stats-container {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            #menu {
+                flex-direction: column;
+                padding: 15px 20px;
+                min-height: auto;
+            }
+            
+            #menu ul {
+                margin-top: 15px;
+                justify-content: center;
+                width: 100%;
+            }
+            
+            .logo {
+                margin-bottom: 5px;
+            }
+
+            .footer-container {
+                padding: 0 20px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            header {
+                clip-path: ellipse(180% 100% at 50% 0%);
+            }
+            
+            header h1 {
+                font-size: 1.8rem;
+            }
+            
+            header p {
+                font-size: 1rem;
+            }
+            
+            .stats-container {
+                grid-template-columns: 1fr;
+            }
+
+            .module-card {
+                padding: 25px;
+            }
+
+            .btn-group {
+                flex-direction: column;
+            }
+
+            .btn {
+                justify-content: center;
+            }
+
+            #menu li a {
+                padding: 6px 10px;
+                font-size: 12px;
+            }
+            
+            #menu ul {
+                gap: 5px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav id="menu">
+        <div class="logo">
+            <i class="fas fa-heartbeat"></i>
+            <span>BioMed</span>
+        </div>
+        <ul>
+            <!-- Se llenará dinámicamente con JavaScript -->
+        </ul>
+    </nav>
+
+    <header>
+        <div class="container">
+           <h1>Bienvenido a BioMed Manager</h1>
+            <p>La plataforma integral diseñada para optimizar la gestión de datos y procesos en el ámbito médico.</p>
+        </div>  
+    </header>
+
+    <main class="container">
+        <div class="dashboard">
+            <div class="module-card">
+                <div class="icon-container">
+                    <i class="fas fa-user-injured"></i>
+                </div>
+                <h2><i class="fas fa-user-injured"></i> Gestión de Pacientes</h2>
+                <p>Registro completo de historiales médicos, seguimiento de tratamientos y evolución clínica de pacientes con herramientas avanzadas de análisis.</p>
+                <div class="btn-group">
+                    <a href="/pacientes" class="btn">
+                        <i class="fas fa-list"></i> Lista de Pacientes
+                    </a>
+                </div>
+            </div>
+            
+            <div class="module-card">
+                <div class="icon-container">
+                    <i class="fas fa-user-md"></i>
+                </div>
+                <h2><i class="fas fa-user-md"></i> Directorio Médico</h2>
+                <p>Control de especialistas, horarios de atención, asignación de consultorios y disponibilidad con integración de calendarios.</p>
+                <div class="btn-group">
+                    <a href="/medicos" class="btn">
+                        <i class="fas fa-search"></i> Buscar Médicos
+                    </a>
+                </div>
+            </div>
+            
+            <div class="module-card">
+                <div class="icon-container">
+                    <i class="fas fa-calendar-alt"></i>
+                </div>
+                <h2><i class="fas fa-calendar-alt"></i> Agenda de Citas</h2>
+                <p>Programación inteligente de consultas, recordatorios automáticos y gestión de cancelaciones con análisis de disponibilidad.</p>
+                <div class="btn-group">
+                    <a href="/seleccionar-paciente-cita" class="btn btn-accent">
+                        <i class="fas fa-plus-circle"></i> Nueva Cita
+                    </a>
+                    <a href="/mi-agenda" class="btn">
+                        <i class="fas fa-calendar-day"></i> Mi Agenda
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div class="stats-bar">
+            <div class="container">
+                <div class="stats-container">
+                    <div class="stat-item">
+                        <div class="stat-icon"><i class="fas fa-user-injured"></i></div>
+                        <div class="stat-number" id="pacientes-count">48</div>
+                        <div class="stat-label">Pacientes Activos</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-icon"><i class="fas fa-user-md"></i></div>
+                        <div class="stat-number" id="medicos-count">10</div>
+                        <div class="stat-label">Médicos Registrados</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-icon"><i class="fas fa-calendar-check"></i></div>
+                        <div class="stat-number" id="citas-count">115</div>
+                        <div class="stat-label">Citas Semanales</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-icon"><i class="fas fa-hospital"></i></div>
+                        <div class="stat-number" id="especialidades-count">15</div>
+                        <div class="stat-label">Especialidades</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <div class="footer-container">
+            <div class="footer-links">
+                <a href="/terminos">Términos de servicio</a>
+                <a href="/privacidad">Política de privacidad</a>
+                <a href="/contacto">Contacto</a>
+                <a href="/acerca">Acerca de</a>
+            </div>
+            <div class="copyright">
+                &copy; 2025 BioMed Manager. Todos los derechos reservados.
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Cargar menú dinámico mejorado
+            fetch('/menu')
+                .then(response => {
+                    if (!response.ok) throw new Error('Error al cargar el menú');
+                    return response.json();
+                })
+                .then(data => {
+                    const menuList = document.querySelector('#menu ul');
+                    
+                    // Ordenar items por prioridad si existe esa propiedad
+                    const sortedItems = data.sort((a, b) => (a.prioridad || 99) - (b.prioridad || 99));
+                    
+                    menuList.innerHTML = sortedItems.map(item => `
+                        <li>
+                            <a href="${item.url}" 
+                               ${window.location.pathname === item.url ? 'class="active"' : ''}
+                               title="${item.descripcion || item.nombre}">
+                                <i class="fas fa-${item.icono || 'link'}"></i> 
+                                ${item.nombre}
+                            </a>
+                        </li>
+                    `).join('');
+                    
+                    // Añadir clase al body para indicar que el menú está cargado
+                    document.body.classList.add('menu-loaded');
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    // Menú de respuesto mejorado
+                    document.querySelector('#menu ul').innerHTML = `
+                        <li><a href="/" class="active"><i class="fas fa-home"></i> Inicio</a></li>
+                        <li><a href="/pacientes"><i class="fas fa-user-injured"></i> Pacientes</a></li>
+                        <li><a href="/medicos"><i class="fas fa-user-md"></i> Médicos</a></li>
+                        <li><a href="/login"><i class="fas fa-sign-in-alt"></i> Acceder</a></li>
+                    `;
+                });
+
+            // Cargar estadísticas
+            fetch('/api/estadisticas')
+                .then(response => {
+                    if (!response.ok) return Promise.reject('Error en estadísticas');
+                    return response.json();
+                })
+                .then(data => {
+                    if (data.pacientes) document.getElementById('pacientes-count').textContent = data.pacientes;
+                    if (data.medicos) document.getElementById('medicos-count').textContent = data.medicos;
+                    if (data.citas) document.getElementById('citas-count').textContent = data.citas;
+                    if (data.especialidades) document.getElementById('especialidades-count').textContent = data.especialidades;
+                })
+                .catch(error => {
+                    console.error('Error al cargar estadísticas:', error);
+                    // Valores por defecto se mantienen
+                });
+
+            // Animación de números mejorada
+            const animateCount = (element, target) => {
+                const duration = 2000;
+                const start = 0;
+                const increment = target / (duration / 16);
+                let current = start;
+                const timer = setInterval(() => {
+                    current += increment;
+                    if (current >= target) {
+                        clearInterval(timer);
+                        current = target;
+                    }
+                    element.textContent = Math.floor(current).toLocaleString();
+                }, 16);
+            };
+
+            // Observador para animar cuando las estadísticas son visibles
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        const pacientes = parseInt(document.getElementById('pacientes-count').textContent.replace(/,/g, ''));
+                        const medicos = parseInt(document.getElementById('medicos-count').textContent.replace(/,/g, ''));
+                        const citas = parseInt(document.getElementById('citas-count').textContent.replace(/,/g, ''));
+                        const especialidades = parseInt(document.getElementById('especialidades-count').textContent.replace(/,/g, ''));
+                        
+                        animateCount(document.getElementById('pacientes-count'), pacientes);
+                        animateCount(document.getElementById('medicos-count'), medicos);
+                        animateCount(document.getElementById('citas-count'), citas);
+                        animateCount(document.getElementById('especialidades-count'), especialidades);
+                        
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, { threshold: 0.5 });
+
+            observer.observe(document.querySelector('.stats-bar'));
+
+            // Efecto hover para tarjetas
+            const cards = document.querySelectorAll('.module-card');
+            cards.forEach(card => {
+                card.addEventListener('mouseenter', () => {
+                    card.style.transform = 'translateY(-5px)';
+                });
+                card.addEventListener('mouseleave', () => {
+                    card.style.transform = '';
+                });
+            });
+        });
+    </script>
+</body>
+</html>
