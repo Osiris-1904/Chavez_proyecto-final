@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vista Previa Excel</title>
+    <link rel="stylesheet" href="/styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #461414;
+            --primary-light: #dbeafe;
+            --primary-dark: #471717;
+            --secondary: #10b981;
+            --accent: #f43f5e;
+            --warning: #f59e0b;
+            --caution: #facc15;
+            --danger: #e63946;
+            --light: #f8fafc;
+            --dark: #0f172a;
+            --gray: #64748b;
+            --light-gray: #e2e8f0;
+            --card-bg: #ffffff;
+            --border-radius: 16px;
+            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: #f1f5f9;
+            color: var(--dark);
+            line-height: 1.6;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        .preview-container {
+            max-width: 1200px;
+            width: 100%;
+            margin: 40px auto;
+            padding: 40px;
+            background: var(--card-bg);
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+            border: 1px solid var(--light-gray);
+        }
+
+        h1 {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+            color: var(--dark);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .excel-icon {
+            color: var(--secondary);
+            font-size: 1.8rem;
+        }
+        
+        .excel-preview {
+            overflow-x: auto;
+            margin: 30px 0;
+            border: 1px solid var(--light-gray);
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+        }
+        
+        .excel-preview table {
+            border-collapse: collapse;
+            width: 100%;
+            min-width: 600px;
+        }
+        
+        .excel-preview th, .excel-preview td {
+            border: 1px solid var(--light-gray);
+            padding: 12px;
+            text-align: left;
+        }
+        
+        .excel-preview th {
+            background-color: var(--secondary);
+            color: white;
+            font-weight: 500;
+        }
+        
+        .excel-preview tr:nth-child(even) {
+            background-color: var(--light);
+        }
+        
+        .action-buttons {
+            margin-top: 30px;
+            display: flex;
+            gap: 15px;
+        }
+        
+        .action-btn {
+            padding: 12px 24px;
+            border-radius: var(--border-radius);
+            text-decoration: none;
+            font-size: 16px;
+            transition: var(--transition);
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            font-weight: 500;
+            border: none;
+            cursor: pointer;
+        }
+        
+        .download-btn {
+            background-color: var(--secondary);
+            color: white;
+        }
+        
+        .download-btn:hover {
+            background-color: #059669;
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-lg);
+        }
+        
+        .back-btn {
+            background-color: var(--gray);
+            color: white;
+        }
+        
+        .back-btn:hover {
+            background-color: #475569;
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .preview-container {
+                margin: 20px auto;
+                padding: 25px;
+            }
+            
+            h1 {
+                font-size: 1.6rem;
+            }
+            
+            .action-buttons {
+                flex-direction: column;
+            }
+            
+            .action-btn {
+                width: 100%;
+                justify-content: center;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .preview-container {
+                padding: 20px;
+                margin: 15px;
+            }
+            
+            h1 {
+                font-size: 1.4rem;
+            }
+            
+            .excel-preview th, .excel-preview td {
+                padding: 8px;
+                font-size: 14px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav id="menu">
+        <div class="logo">
+            <i class="fas fa-heartbeat"></i>
+            <span>BioMed</span>
+        </div>
+        <ul>
+            <!-- Se llenará dinámicamente con JavaScript -->
+        </ul>
+    </nav>
+    
+    <div class="preview-container">
+        <h1><i class="fas fa-file-excel excel-icon"></i> Vista Previa: <span id="filename"></span></h1>
+        
+        <div class="excel-preview" id="excel-content">
+            <!-- El contenido del Excel se cargará aquí -->
+            <p>Cargando vista previa...</p>
+        </div>
+        
+        <div class="action-buttons">
+            <a href="#" id="download-link" class="action-btn download-btn">
+                <i class="fas fa-download"></i> Descargar Archivo
+            </a>
+            <a href="/ver-excels" class="action-btn back-btn">
+                <i class="fas fa-arrow-left"></i> Volver a la lista
+            </a>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Cargar navbar
+            fetch('navbar.html')
+                .then(response => response.text())
+                .then(data => {
+                    document.getElementById('navbar').innerHTML = data;
+                })
+                .catch(error => {
+                    console.error('Error al cargar el navbar:', error);
+                });
+            
+            // Obtener el ID del archivo de la URL
+            const pathParts = window.location.pathname.split('/');
+            const fileId = pathParts[pathParts.length - 1];
+            
+            // Cargar la vista previa del Excel
+            fetch(`/api/preview-excel/${fileId}`)
+                .then(response => response.json())
+                .then(data => {
+                    document.getElementById('filename').textContent = data.nombre;
+                    document.getElementById('excel-content').innerHTML = data.html;
+                    document.getElementById('download-link').href = `/descargar-excel/${fileId}`;
+                })
+                .catch(error => {
+                    console.error('Error al cargar la vista previa:', error);
+                    document.getElementById('excel-content').innerHTML = `
+                        <div style="color: var(--danger); padding: 20px; text-align: center;">
+                            <i class="fas fa-exclamation-circle"></i> Error al cargar la vista previa del archivo Excel.
+                        </div>
+                    `;
+                });
+        });
+    </script>
+</body>
+</html>
