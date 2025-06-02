@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Subir Archivo Excel</title>
+    <link rel="stylesheet" href="/styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #461414;
+            --primary-light: #dbeafe;
+            --primary-dark: #471717;
+            --secondary: #10b981;
+            --accent: #f43f5e;
+            --warning: #f59e0b;
+            --caution: #facc15;
+            --danger: #e63946;
+            --light: #f8fafc;
+            --dark: #0f172a;
+            --gray: #64748b;
+            --light-gray: #e2e8f0;
+            --card-bg: #ffffff;
+            --border-radius: 16px;
+            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: #f1f5f9;
+            color: var(--dark);
+            line-height: 1.6;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        /* Menú mejorado */
+        #menu {
+            background-color: var(--card-bg);
+            padding: 0 40px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            box-shadow: var(--shadow);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            min-height: 80px;
+            border-bottom: 1px solid var(--light-gray);
+            max-width: 1200px;
+            margin: 0 auto;
+            width: 100%;
+        }
+
+        #menu ul {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            justify-content: flex-end;
+        }
+
+        #menu li a {
+            color: var(--dark);
+            text-decoration: none;
+            padding: 10px 15px;
+            border-radius: var(--border-radius);
+            transition: var(--transition);
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 14px;
+            white-space: nowrap;
+        }
+
+        #menu li a:hover {
+            background-color: var(--primary-light);
+            color: var(--primary);
+        }
+
+        #menu li a.active {
+            background-color: var(--primary);
+            color: white;
+        }
+
+        /* Logo mejorado */
+        .logo {
+            font-weight: 700;
+            font-size: 1.4rem;
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px 0;
+        }
+
+        .logo i {
+            font-size: 1.6rem;
+        }
+
+        .upload-container {
+            max-width: 800px;
+            width: 100%;
+            margin: 40px auto;
+            padding: 40px;
+            background: var(--card-bg);
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+            border: 1px solid var(--light-gray);
+        }
+
+        h1 {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+            color: var(--dark);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        h1 i {
+            color: var(--primary);
+        }
+
+        p {
+            color: var(--gray);
+            margin-bottom: 25px;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background-color: var(--primary);
+            color: white;
+            padding: 12px 24px;
+            border-radius: var(--border-radius);
+            text-decoration: none;
+            font-weight: 500;
+            transition: var(--transition);
+            border: none;
+            cursor: pointer;
+            font-size: 15px;
+            border: 1px solid transparent;
+        }
+
+        .btn:hover {
+            background-color: var(--primary-dark);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(37, 99, 235, 0.3);
+        }
+
+        .btn-primary {
+            background-color: var(--primary);
+        }
+
+        .btn-primary:hover {
+            background-color: var(--primary-dark);
+        }
+
+        .btn-cancel {
+            background-color: var(--gray);
+        }
+
+        .btn-cancel:hover {
+            background-color: #475569;
+        }
+
+        .file-upload-wrapper {
+            position: relative;
+            margin: 30px 0;
+        }
+
+        .file-upload-input {
+            position: absolute;
+            left: 0;
+            top: 0;
+            opacity: 0;
+            width: 100%;
+            height: 100%;
+            cursor: pointer;
+        }
+
+        .file-upload-button {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 12px 24px;
+            background-color: var(--primary);
+            color: white;
+            border-radius: var(--border-radius);
+            cursor: pointer;
+            transition: var(--transition);
+            font-weight: 500;
+        }
+
+        .file-upload-button:hover {
+            background-color: var(--primary-dark);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(37, 99, 235, 0.3);
+        }
+
+        .file-upload-name {
+            margin-top: 15px;
+            font-size: 14px;
+            color: var(--gray);
+            padding: 10px;
+            background-color: var(--light);
+            border-radius: var(--border-radius);
+            border: 1px dashed var(--light-gray);
+        }
+
+        .excel-icon {
+            color: var(--primary);
+            font-size: 1.5rem;
+        }
+
+        .btn-group {
+            margin-top: 30px;
+            display: flex;
+            gap: 12px;
+        }
+
+        .boton-volver {
+            display: inline-block;
+            margin-top: 20px;
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: 500;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .boton-volver:hover {
+            color: var(--primary-dark);
+            text-decoration: underline;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .upload-container {
+                padding: 30px;
+                margin: 20px auto;
+            }
+            
+            .btn-group {
+                flex-direction: column;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .upload-container {
+                padding: 20px;
+                margin: 15px;
+            }
+            
+            h1 {
+                font-size: 1.6rem;
+            }
+            
+            .file-upload-button, 
+            .btn {
+                padding: 10px 16px;
+                font-size: 14px;
+                width: 100%;
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav id="menu">
+        <div class="logo">
+            <i class="fas fa-heartbeat"></i>
+            <span>BioMed</span>
+        </div>
+        <ul>
+            <!-- Se llenará dinámicamente con JavaScript -->
+        </ul>
+    </nav>
+    
+    <div class="upload-container">
+        <h1><i class="fas fa-file-excel excel-icon"></i> Subir Archivo Excel</h1>
+        <p>Puedes subir archivos Excel (.xlsx, .xls) con un tamaño máximo de 10MB.</p>
+        
+        <form action="/subir-excel" method="POST" enctype="multipart/form-data">
+            <div class="file-upload-wrapper">
+                <label class="file-upload-button">
+                    <i class="fas fa-file-upload"></i> Seleccionar Archivo Excel
+                    <input type="file" id="excelFile" name="excelFile" class="file-upload-input" accept=".xlsx,.xls" required>
+                </label>
+                <div id="file-name" class="file-upload-name">Ningún archivo seleccionado</div>
+            </div>
+            
+            <div class="btn-group">
+                <button type="submit" class="btn btn-primary"><i class="fas fa-cloud-upload-alt"></i> Subir Archivo</button>
+                <a href="/ver-excels" class="btn btn-cancel"><i class="fas fa-times"></i> Cancelar</a>
+            </div>
+        </form>
+        <a href="/" class="boton-volver"><i class="fas fa-arrow-left"></i> Volver al inicio</a>
+    </div>
+
+    <script>
+        document.getElementById('excelFile').addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            const fileName = file ? file.name : 'Ningún archivo seleccionado';
+            document.getElementById('file-name').textContent = fileName;
+        });
+
+        // Cargar navbar
+        document.addEventListener('DOMContentLoaded', () => {
+            fetch('navbar.html')
+                .then(response => response.text())
+                .then(data => {
+                    document.getElementById('navbar').innerHTML = data;
+                })
+                .catch(error => {
+                    console.error('Error al cargar el navbar:', error);
+                });
+        });
+    </script>
+</body>
+</html>
