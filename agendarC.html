@@ -1,0 +1,452 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Agendar Cita | BioMed Manager</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #471111;
+            --primary-light: #dbeafe;
+            --primary-dark: #6b1717;
+            --secondary: #10b981;
+            --accent: #f43f5e;
+            --light: #f8fafc;
+            --dark: #0f172a;
+            --gray: #64748b;
+            --light-gray: #e2e8f0;
+            --card-bg: #ffffff;
+            --border-radius: 16px;
+            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: #f1f5f9;
+            color: var(--dark);
+            line-height: 1.6;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        /* Menú mejorado */
+        #menu {
+            background-color: var(--card-bg);
+            padding: 0 40px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            box-shadow: var(--shadow);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            min-height: 80px;
+            border-bottom: 1px solid var(--light-gray);
+            max-width: 1200px;
+            margin: 0 auto;
+            width: 100%;
+        }
+
+        #menu ul {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            justify-content: flex-end;
+        }
+
+        #menu li a {
+            color: var(--dark);
+            text-decoration: none;
+            padding: 10px 15px;
+            border-radius: var(--border-radius);
+            transition: var(--transition);
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 14px;
+            white-space: nowrap;
+        }
+
+        #menu li a:hover {
+            background-color: var(--primary-light);
+            color: var(--primary);
+        }
+
+        #menu li a.active {
+            background-color: var(--primary);
+            color: white;
+        }
+
+        .logo {
+            font-weight: 700;
+            font-size: 1.4rem;
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px 0;
+        }
+
+        .logo i {
+            font-size: 1.6rem;
+        }
+
+        /* Contenedor del formulario */
+        .form-container {
+            max-width: 800px;
+            width: 100%;
+            margin: 40px auto;
+            background: var(--card-bg);
+            padding: 40px;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+            border: 1px solid var(--light-gray);
+        }
+
+        .form-header {
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        .form-header h1 {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--dark);
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+        }
+
+        .form-header p {
+            color: var(--gray);
+            font-size: 15px;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 25px;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        label {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--dark);
+        }
+
+        input, textarea, select {
+            width: 100%;
+            padding: 14px 16px;
+            border: 1px solid var(--light-gray);
+            border-radius: var(--border-radius);
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-size: 15px;
+            transition: var(--transition);
+            background-color: var(--light);
+        }
+
+        input:focus, textarea:focus, select:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+        }
+
+        textarea {
+            min-height: 120px;
+            resize: vertical;
+            line-height: 1.6;
+        }
+
+        .btn-group {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 14px 24px;
+            border-radius: var(--border-radius);
+            text-decoration: none;
+            font-weight: 500;
+            transition: var(--transition);
+            border: none;
+            cursor: pointer;
+            font-size: 15px;
+            flex: 1;
+        }
+
+        .btn-primary {
+            background-color: var(--primary);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background-color: var(--primary-dark);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(37, 99, 235, 0.3);
+        }
+
+        .btn-secondary {
+            background-color: var(--secondary);
+            color: white;
+        }
+
+        .btn-secondary:hover {
+            background-color: #059669;
+            transform: translateY(-2px);
+        }
+
+        .btn-outline {
+            background-color: transparent;
+            border: 1px solid var(--light-gray);
+            color: var(--dark);
+        }
+
+        .btn-outline:hover {
+            background-color: var(--light);
+            transform: translateY(-2px);
+        }
+
+        /* Footer */
+        footer {
+            background-color: var(--dark);
+            color: white;
+            padding: 30px 0;
+            text-align: center;
+            margin-top: auto;
+        }
+
+        .footer-container {
+            max-width: 1200px;
+            width: 100%;
+            margin: 0 auto;
+            padding: 0 40px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .footer-links {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .footer-links a {
+            color: var(--light-gray);
+            text-decoration: none;
+            transition: var(--transition);
+        }
+
+        .footer-links a:hover {
+            color: white;
+        }
+
+        .copyright {
+            font-size: 0.9rem;
+            color: var(--gray);
+        }
+
+        /* Responsive */
+        @media (max-width: 992px) {
+            #menu {
+                padding: 0 20px;
+            }
+            
+            #menu ul {
+                gap: 8px;
+            }
+            
+            #menu li a {
+                padding: 8px 12px;
+                font-size: 13px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .form-container {
+                margin: 20px;
+                padding: 30px;
+            }
+            
+            .btn-group {
+                flex-direction: column;
+            }
+
+            #menu {
+                flex-direction: column;
+                padding: 15px 20px;
+                min-height: auto;
+            }
+            
+            #menu ul {
+                margin-top: 15px;
+                justify-content: center;
+                width: 100%;
+            }
+            
+            .logo {
+                margin-bottom: 5px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .form-container {
+                padding: 25px;
+            }
+            
+            .form-header h1 {
+                font-size: 1.5rem;
+            }
+            
+            #menu li a {
+                padding: 6px 10px;
+                font-size: 12px;
+            }
+            
+            #menu ul {
+                gap: 5px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav id="menu">
+        <div class="logo">
+            <i class="fas fa-heartbeat"></i>
+            <span>BioMed</span>
+        </div>
+        <ul>
+            <!-- Se llenará dinámicamente con JavaScript -->
+        </ul>
+    </nav>
+
+    <div class="form-container">
+        <div class="form-header">
+            <h1><i class="fas fa-calendar-plus"></i> Agendar Nueva Cita</h1>
+            <p>Complete el formulario para programar una cita médica</p>
+        </div>
+        
+        <form action="/crear-cita" method="POST">
+            <input type="hidden" name="paciente_id" id="paciente_id_input">
+            
+            <div class="form-group">
+                <label for="fecha_hora">Fecha y Hora</label>
+                <input type="datetime-local" id="fecha_hora" name="fecha_hora" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="motivo">Motivo de la consulta</label>
+                <textarea id="motivo" name="motivo" rows="4" required placeholder="Describa el motivo de la consulta..."></textarea>
+            </div>
+            
+            <div class="btn-group">
+                <button type="submit" class="btn btn-primary">
+                    <i class="fas fa-calendar-check"></i> Confirmar Cita
+                </button>
+                <button type="button" onclick="window.history.back()" class="btn btn-outline">
+                    <i class="fas fa-times"></i> Cancelar
+                </button>
+            </div>
+        </form>
+    </div>
+
+    <footer>
+        <div class="footer-container">
+            <div class="footer-links">
+                <a href="/terminos">Términos de servicio</a>
+                <a href="/privacidad">Política de privacidad</a>
+                <a href="/contacto">Contacto</a>
+                <a href="/acerca">Acerca de</a>
+            </div>
+            <div class="copyright">
+                &copy; 2023 BioMed Manager. Todos los derechos reservados.
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Cargar menú dinámico
+            fetch('/menu')
+                .then(response => {
+                    if (!response.ok) throw new Error('Error al cargar el menú');
+                    return response.json();
+                })
+                .then(data => {
+                    const menuList = document.querySelector('#menu ul');
+                    
+                    // Ordenar items por prioridad si existe esa propiedad
+                    const sortedItems = data.sort((a, b) => (a.prioridad || 99) - (b.prioridad || 99));
+                    
+                    menuList.innerHTML = sortedItems.map(item => `
+                        <li>
+                            <a href="${item.url}" 
+                               ${window.location.pathname === item.url ? 'class="active"' : ''}
+                               title="${item.descripcion || item.nombre}">
+                                <i class="fas fa-${item.icono || 'link'}"></i> 
+                                ${item.nombre}
+                            </a>
+                        </li>
+                    `).join('');
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    // Menú de respuesto
+                    document.querySelector('#menu ul').innerHTML = `
+                        <li><a href="/"><i class="fas fa-home"></i> Inicio</a></li>
+                        <li><a href="/pacientes"><i class="fas fa-user-injured"></i> Pacientes</a></li>
+                        <li><a href="/citas" class="active"><i class="fas fa-calendar-alt"></i> Citas</a></li>
+                        <li><a href="/login"><i class="fas fa-sign-in-alt"></i> Acceder</a></li>
+                    `;
+                });
+
+            // Obtener ID del paciente de la URL si existe
+            const urlParams = new URLSearchParams(window.location.search);
+            const pacienteId = urlParams.get('paciente_id');
+            if (pacienteId) {
+                document.getElementById('paciente_id_input').value = pacienteId;
+                
+                // Opcional: Cargar datos del paciente para mostrar su nombre
+                fetch(`/api/pacientes/${pacienteId}`)
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.nombre) {
+                            document.getElementById('title-paciente').textContent += ` para ${data.nombre}`;
+                        }
+                    })
+                    .catch(error => console.error('Error al cargar datos del paciente:', error));
+            }
+        });
+    </script>
+</body>
+</html>
