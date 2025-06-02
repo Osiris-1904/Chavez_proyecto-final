@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Editar Paciente: <%= paciente.nombre %></title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #461414;
+            --primary-light: #dbeafe;
+            --primary-dark: #471717;
+            --secondary: #10b981;
+            --accent: #f43f5e;
+            --warning: #f59e0b;
+            --caution: #facc15;
+            --danger: #e63946;
+            --light: #f8fafc;
+            --dark: #0f172a;
+            --gray: #64748b;
+            --light-gray: #e2e8f0;
+            --card-bg: #ffffff;
+            --border-radius: 16px;
+            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: #f1f5f9;
+            color: var(--dark);
+            line-height: 1.6;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+        
+
+        /* Logo mejorado */
+        .logo {
+            font-weight: 700;
+            font-size: 1.4rem;
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px 0;
+        }
+
+        .logo i {
+            font-size: 1.6rem;
+        }
+
+        .form-container {
+            max-width: 800px;
+            width: 100%;
+            margin: 40px auto;
+            padding: 40px;
+            background: var(--card-bg);
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+            border: 1px solid var(--light-gray);
+        }
+
+        h1 {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+            color: var(--dark);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        h1 i {
+            color: var(--primary);
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background-color: var(--primary);
+            color: white;
+            padding: 12px 24px;
+            border-radius: var(--border-radius);
+            text-decoration: none;
+            font-weight: 500;
+            transition: var(--transition);
+            border: none;
+            cursor: pointer;
+            font-size: 15px;
+            border: 1px solid transparent;
+        }
+
+        .btn:hover {
+            background-color: var(--primary-dark);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(37, 99, 235, 0.3);
+        }
+
+        .btn-primary {
+            background-color: var(--primary);
+        }
+
+        .btn-primary:hover {
+            background-color: var(--primary-dark);
+        }
+
+        .btn-cancel {
+            background-color: var(--gray);
+            margin-left: 10px;
+        }
+
+        .btn-cancel:hover {
+            background-color: #475569;
+        }
+
+        label {
+            display: block;
+            margin-top: 15px;
+            margin-bottom: 5px;
+            font-weight: 600;
+            color: var(--dark);
+        }
+
+        input[type="text"],
+        input[type="number"],
+        select {
+            width: 100%;
+            padding: 12px 16px;
+            margin-bottom: 15px;
+            border: 1px solid var(--light-gray);
+            border-radius: var(--border-radius);
+            box-sizing: border-box;
+            font-size: 1em;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            transition: var(--transition);
+        }
+
+        input[type="text"]:focus,
+        input[type="number"]:focus,
+        select:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px var(--primary-light);
+        }
+
+        .btn-group {
+            margin-top: 30px;
+            display: flex;
+            gap: 12px;
+        }
+
+        .boton-volver {
+            display: inline-block;
+            margin-top: 20px;
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: 500;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .boton-volver:hover {
+            color: var(--primary-dark);
+            text-decoration: underline;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .form-container {
+                padding: 30px;
+                margin: 20px auto;
+            }
+            
+            .btn-group {
+                flex-direction: column;
+            }
+            
+            .btn-cancel {
+                margin-left: 0;
+                margin-top: 10px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .form-container {
+                padding: 20px;
+                margin: 15px;
+            }
+            
+            h1 {
+                font-size: 1.6rem;
+            }
+            
+            .btn {
+                padding: 10px 16px;
+                font-size: 14px;
+                width: 100%;
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div id="navbar">
+        <div class="logo">
+            <i class="fas fa-heartbeat"></i>
+            <span>BioMed</span>
+        </div>
+        <nav>
+            <ul id="menu">
+                <!-- Se llenará dinámicamente con JavaScript -->
+            </ul>
+        </nav>
+    </div>
+
+    <div class="form-container">
+        <h1><i class="fas fa-user-edit"></i> Editar Paciente: <%= paciente.nombre %></h1>
+
+        <form action="/actualizar-paciente/<%= paciente.id %>" method="POST">
+            <label for="name">Nombre completo del paciente:</label>
+            <input type="text" id="name" name="name" value="<%= paciente.nombre || '' %>" required>
+            
+            <label for="age">Edad:</label>
+            <input type="number" id="age" name="age" min="0" max="120" value="<%= paciente.edad || '' %>" required>
+
+            <label for="gender">Género:</label>
+            <select id="gender" name="gender" required>
+                <option value="">Selecciona un género</option>
+                <option value="M" <%= paciente.genero === 'M' ? 'selected' : '' %>>Masculino</option>
+                <option value="F" <%= paciente.genero === 'F' ? 'selected' : '' %>>Femenino</option>
+                <option value="Otro" <%= paciente.genero === 'Otro' ? 'selected' : '' %>>Otro</option>
+            </select>
+
+            <label for="height">Altura (cm):</label>
+            <input type="number" id="height" name="height" min="30" max="250" step="0.1" value="<%= paciente.altura || '' %>" required>
+
+            <label for="weight">Peso (kg):</label>
+            <input type="number" id="weight" name="weight" min="0.5" max="300" step="0.1" value="<%= paciente.peso || '' %>" required>
+
+            <label for="heart-rate">Frecuencia Cardiaca (bpm):</label>
+            <input type="number" id="heart-rate" name="heart_rate" min="30" max="200" value="<%= paciente.frecuencia_cardiaca || '' %>" required>
+            
+            <label for="blood-pressure">Presión Arterial (mm Hg):</label>
+            <input type="text" id="blood-pressure" name="blood_pressure" placeholder="Ej: 120/80" value="<%= paciente.presion_arterial || '' %>" required>
+
+            <label for="temperature">Temperatura (°C):</label>
+            <input type="number" id="temperature" name="temperature" step="0.1" min="30" max="45" value="<%= paciente.temperatura || '' %>" required>
+
+            <div class="btn-group">
+                <button type="submit" class="btn btn-primary"><i class="fas fa-save"></i> Actualizar Paciente</button>
+                <button type="button" onclick="window.history.back()" class="btn btn-cancel"><i class="fas fa-times"></i> Cancelar</button>
+            </div>
+        </form>
+        <a href="/" class="boton-volver"><i class="fas fa-arrow-left"></i> Volver al inicio</a>
+    </div>
+
+    
+</body>
+</html>
