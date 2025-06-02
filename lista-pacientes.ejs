@@ -1,0 +1,475 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lista de Pacientes</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #461414;
+            --primary-light: #dbeafe;
+            --primary-dark: #471717;
+            --secondary: #10b981;
+            --accent: #f43f5e;
+            --warning: #f59e0b;
+            --caution: #facc15;
+            --danger: #e63946;
+            --light: #f8fafc;
+            --dark: #0f172a;
+            --gray: #64748b;
+            --light-gray: #e2e8f0;
+            --card-bg: #ffffff;
+            --border-radius: 16px;
+            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: #f1f5f9;
+            color: var(--dark);
+            line-height: 1.6;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            padding: 0;
+        }
+
+        /* Menú mejorado */
+        #navbar {
+            background-color: var(--card-bg);
+            padding: 0 40px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            box-shadow: var(--shadow);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            min-height: 80px;
+            border-bottom: 1px solid var(--light-gray);
+            width: 100%;
+        }
+
+        #navbar nav ul {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            justify-content: flex-end;
+        }
+
+        #navbar nav ul li {
+            margin: 0;
+            text-decoration: none;
+        }
+
+        #navbar nav ul li a {
+            color: var(--dark);
+            text-decoration: none;
+            padding: 10px 15px;
+            border-radius: var(--border-radius);
+            transition: var(--transition);
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 14px;
+            white-space: nowrap;
+        }
+
+        #navbar nav ul li a:hover {
+            background-color: var(--primary-light);
+            color: var(--primary);
+        }
+
+        #navbar nav ul li a.active {
+            background-color: var(--primary);
+            color: white;
+        }
+
+        /* Logo mejorado */
+        .logo {
+            font-weight: 700;
+            font-size: 1.4rem;
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px 0;
+        }
+
+        .logo i {
+            font-size: 1.6rem;
+        }
+
+        .container {
+            max-width: 1200px;
+            width: 100%;
+            margin: 40px auto;
+            padding: 0 20px;
+        }
+
+        h1 {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 30px;
+            color: var(--dark);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        h1 i {
+            color: var(--primary);
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background-color: var(--primary);
+            color: white;
+            padding: 10px 20px;
+            border-radius: var(--border-radius);
+            text-decoration: none;
+            font-weight: 500;
+            transition: var(--transition);
+            border: none;
+            cursor: pointer;
+            font-size: 14px;
+            border: 1px solid transparent;
+        }
+
+        .btn:hover {
+            background-color: var(--primary-dark);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(70, 20, 20, 0.3);
+        }
+
+        .btn-primary {
+            background-color: var(--primary);
+        }
+
+        .btn-primary:hover {
+            background-color: var(--primary-dark);
+        }
+
+        .btn-danger {
+            background-color: var(--danger);
+        }
+
+        .btn-danger:hover {
+            background-color: #c1121f;
+        }
+
+        .message {
+            background-color: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+            padding: 15px;
+            border-radius: var(--border-radius);
+            margin-bottom: 30px;
+            text-align: center;
+            font-weight: 500;
+            box-shadow: var(--shadow);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            background-color: var(--card-bg);
+            border-radius: var(--border-radius);
+            overflow: hidden;
+            box-shadow: var(--shadow-lg);
+        }
+
+        th, td {
+            padding: 15px;
+            text-align: left;
+            border-bottom: 1px solid var(--light-gray);
+        }
+
+        th {
+            background-color: var(--primary);
+            color: white;
+            font-weight: 600;
+            text-transform: uppercase;
+            font-size: 0.85rem;
+            letter-spacing: 0.5px;
+        }
+
+        tr:nth-child(even) {
+            background-color: var(--light);
+        }
+
+        tr:hover {
+            background-color: var(--primary-light);
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 8px;
+            justify-content: center;
+        }
+
+        .edit-button, .delete-button {
+            padding: 8px 16px;
+            border: none;
+            border-radius: var(--border-radius);
+            cursor: pointer;
+            text-decoration: none;
+            color: white;
+            font-size: 0.85rem;
+            transition: var(--transition);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 5px;
+        }
+
+        .edit-button {
+            background-color: var(--primary);
+        }
+
+        .edit-button:hover {
+            background-color: var(--primary-dark);
+            transform: translateY(-2px);
+            box-shadow: 0 3px 10px rgba(70, 20, 20, 0.2);
+        }
+
+        .delete-button {
+            background-color: var(--danger);
+        }
+
+        .delete-button:hover {
+            background-color: #c1121f;
+            transform: translateY(-2px);
+            box-shadow: 0 3px 10px rgba(230, 57, 70, 0.2);
+        }
+
+        .null-data {
+            color: var(--gray);
+            font-style: italic;
+        }
+
+        .no-patients {
+            background-color: var(--card-bg);
+            padding: 30px;
+            border-radius: var(--border-radius);
+            text-align: center;
+            box-shadow: var(--shadow);
+            color: var(--gray);
+            font-weight: 500;
+        }
+
+        .boton-volver {
+            display: inline-block;
+            margin-top: 30px;
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: 500;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .boton-volver:hover {
+            color: var(--primary-dark);
+            text-decoration: underline;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .container {
+                padding: 0 15px;
+                margin: 20px auto;
+            }
+            
+            table {
+                display: block;
+                overflow-x: auto;
+            }
+            
+            .action-buttons {
+                flex-direction: column;
+                gap: 5px;
+            }
+            
+            .edit-button, 
+            .delete-button {
+                width: 100%;
+                justify-content: center;
+            }
+        }
+
+        @media (max-width: 480px) {
+            #navbar {
+                padding: 0 15px;
+                flex-direction: column;
+                align-items: flex-start;
+                padding: 15px;
+            }
+            
+            #navbar nav ul {
+                width: 100%;
+                justify-content: space-between;
+                margin-top: 10px;
+            }
+            
+            h1 {
+                font-size: 1.6rem;
+            }
+            
+            .edit-button, 
+            .delete-button {
+                padding: 6px 12px;
+                font-size: 12px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div id="navbar">
+        <div class="logo">
+            <i class="fas fa-heartbeat"></i>
+            <span>BioMed</span>
+        </div>
+        <nav>
+            <ul>
+                <!-- Se llenará dinámicamente con JavaScript -->
+            </ul>
+        </nav>
+    </div>
+
+    <div class="container">
+        <h1><i class="fas fa-user-injured"></i> Pacientes Registrados</h1>
+
+        <% if (typeof query !== 'undefined' && query.success) { %>
+            <div class="message">
+                <i class="fas fa-check-circle"></i> Paciente <strong><%= query.name %></strong> ha sido guardado con éxito.
+            </div>
+        <% } %>
+        <% if (typeof query !== 'undefined' && query.updateSuccess) { %>
+            <div class="message">
+                <i class="fas fa-check-circle"></i> Paciente actualizado con éxito.
+            </div>
+        <% } %>
+
+        <% if (pacientes.length > 0) { %>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Nombre</th>
+                        <th>Edad</th>
+                        <th>Género</th>
+                        <th>Frecuencia Cardiaca (bpm)</th>
+                        <th>Altura (cm)</th>
+                        <th>Peso (kg)</th>
+                        <th>Presión Arterial (mm Hg)</th>
+                        <th>Temperatura (°C)</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% pacientes.forEach(function(paciente) { %>
+                        <% 
+                            const displayValue = (value) => {
+                                if (value === null || value === undefined || value === '') {
+                                    return '<span class="null-data">N/A</span>';
+                                }
+                                return value;
+                            };
+                        %>
+                        <tr>
+                            <td><%= paciente.nombre %></td>
+                            <td><%- displayValue(paciente.edad) %></td>
+                            <td><%- displayValue(paciente.genero) %></td>
+                            <td><%- displayValue(paciente.frecuencia_cardiaca) %></td>
+                            <td><%- displayValue(paciente.altura) %></td>
+                            <td><%- displayValue(paciente.peso) %></td>
+                            <td><%- displayValue(paciente.presion_arterial) %></td>
+                            <td><%- displayValue(paciente.temperatura) %></td>
+                            <td class="action-buttons">
+                                <a href="/editar-paciente/<%= paciente.id %>" class="edit-button">
+                                    <i class="fas fa-edit"></i> Editar
+                                </a>
+                                <button class="delete-button" onclick="eliminarPaciente('<%= paciente.id %>', '<%= paciente.nombre %>')">
+                                    <i class="fas fa-trash-alt"></i> Eliminar
+                                </button>
+                            </td>
+                        </tr>
+                    <% }); %>
+                </tbody>
+            </table>
+        <% } else { %>
+            <div class="no-patients">
+                <i class="fas fa-user-slash"></i> No hay pacientes registrados.
+            </div>
+        <% } %>
+
+        <a href="/" class="boton-volver">
+            <i class="fas fa-arrow-left"></i> Volver al inicio
+        </a>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+
+            const urlParams = new URLSearchParams(window.location.search);
+            if (urlParams.has('success') || urlParams.has('updateSuccess')) {
+                urlParams.delete('success');
+                urlParams.delete('updateSuccess');
+                const newUrl = window.location.origin + window.location.pathname + (urlParams.toString() ? '?' + urlParams.toString() : '');
+                history.replaceState(null, '', newUrl); 
+            }
+        });
+
+        function eliminarPaciente(id, nombre) {
+            if (confirm(`¿Estás seguro de que quieres eliminar al paciente ${nombre}?`)) {
+                fetch(`/pacientes/${id}`, { 
+                    method: 'DELETE',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                })
+                    .then(response => {
+                        if (response.ok) {
+                            const message = document.createElement('div');
+                            message.className = 'message';
+                            message.innerHTML = `<i class="fas fa-check-circle"></i> Paciente ${nombre} eliminado correctamente.`;
+                            document.querySelector('.container').insertBefore(message, document.querySelector('table'));
+                            
+                            setTimeout(() => {
+                                window.location.reload();
+                            }, 1500);
+                        } else {
+                            response.text().then(errorMessage => {
+                                alert(`Error al eliminar el paciente: ${errorMessage || 'Error desconocido'}`);
+                            }).catch(() => {
+                                alert('Error al eliminar el paciente.');
+                            });
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error al eliminar paciente:', error);
+                        alert('Error de red o comunicación con el servidor al eliminar el paciente.');
+                    });
+            }
+        }
+    </script>
+</body>
+</html>
