@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Subir Documentos</title>
+    <link rel="stylesheet" href="/styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #461414;
+            --primary-light: #dbeafe;
+            --primary-dark: #471717;
+            --secondary: #10b981;
+            --accent: #f43f5e;
+            --warning: #f59e0b;
+            --caution: #facc15;
+            --danger: #e63946;
+            --light: #f8fafc;
+            --dark: #0f172a;
+            --gray: #64748b;
+            --light-gray: #e2e8f0;
+            --card-bg: #ffffff;
+            --border-radius: 16px;
+            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: #f1f5f9;
+            color: var(--dark);
+            line-height: 1.6;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        /* Menú mejorado */
+        #menu {
+            background-color: var(--card-bg);
+            padding: 0 40px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            box-shadow: var(--shadow);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            min-height: 80px;
+            border-bottom: 1px solid var(--light-gray);
+            max-width: 1200px;
+            margin: 0 auto;
+            width: 100%;
+        }
+
+        #menu ul {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            justify-content: flex-end;
+        }
+
+        #menu li a {
+            color: var(--dark);
+            text-decoration: none;
+            padding: 10px 15px;
+            border-radius: var(--border-radius);
+            transition: var(--transition);
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 14px;
+            white-space: nowrap;
+        }
+
+        #menu li a:hover {
+            background-color: var(--primary-light);
+            color: var(--primary);
+        }
+
+        #menu li a.active {
+            background-color: var(--primary);
+            color: white;
+        }
+
+        /* Logo mejorado */
+        .logo {
+            font-weight: 700;
+            font-size: 1.4rem;
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px 0;
+        }
+
+        .logo i {
+            font-size: 1.6rem;
+        }
+
+        .upload-container {
+            max-width: 800px;
+            width: 100%;
+            margin: 40px auto;
+            padding: 40px;
+            background: var(--card-bg);
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+            border: 1px solid var(--light-gray);
+        }
+
+        h1 {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+            color: var(--dark);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        h1 i {
+            color: var(--primary);
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background-color: var(--primary);
+            color: white;
+            padding: 12px 24px;
+            border-radius: var(--border-radius);
+            text-decoration: none;
+            font-weight: 500;
+            transition: var(--transition);
+            border: none;
+            cursor: pointer;
+            font-size: 15px;
+            border: 1px solid transparent;
+        }
+
+        .btn:hover {
+            background-color: var(--primary-dark);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(37, 99, 235, 0.3);
+        }
+
+        .btn-primary {
+            background-color: var(--primary);
+        }
+
+        .btn-primary:hover {
+            background-color: var(--primary-dark);
+        }
+
+        .btn-cancel {
+            background-color: var(--gray);
+            margin-left: 10px;
+        }
+
+        .btn-cancel:hover {
+            background-color: #475569;
+        }
+
+        .file-upload-wrapper {
+            position: relative;
+            margin: 30px 0;
+        }
+        
+        .file-upload-input {
+            position: absolute;
+            left: 0;
+            top: 0;
+            opacity: 0;
+            width: 100%;
+            height: 100%;
+            cursor: pointer;
+        }
+        
+        .file-upload-button {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 12px 24px;
+            background-color: var(--primary);
+            color: white;
+            border-radius: var(--border-radius);
+            cursor: pointer;
+            transition: var(--transition);
+            font-weight: 500;
+        }
+        
+        .file-upload-button:hover {
+            background-color: var(--primary-dark);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(37, 99, 235, 0.3);
+        }
+        
+        .file-upload-name {
+            margin-top: 15px;
+            font-size: 14px;
+            color: var(--gray);
+            padding-left: 10px;
+        }
+        
+        .preview-container {
+            margin: 30px 0;
+            text-align: center;
+            padding: 20px;
+            background-color: var(--light);
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+            border: 1px solid var(--light-gray);
+        }
+        
+        .preview-image {
+            max-width: 100%;
+            max-height: 300px;
+            border: 1px solid var(--light-gray);
+            border-radius: var(--border-radius);
+            padding: 5px;
+            box-shadow: var(--shadow);
+        }
+        
+        .preview-pdf {
+            width: 100%;
+            height: 500px;
+            border: 1px solid var(--light-gray);
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+        }
+        
+        /* Documentos section */
+        .documentos-section {
+            margin: 40px 0 20px;
+            padding: 25px;
+            background-color: var(--light);
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+            border: 1px solid var(--light-gray);
+        }
+        
+        .documentos-section h2 {
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+            color: var(--dark);
+        }
+        
+        .btn-documentos {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 12px 24px;
+            background-color: var(--primary);
+            color: white;
+            border-radius: var(--border-radius);
+            text-decoration: none;
+            font-weight: 500;
+            transition: var(--transition);
+        }
+        
+        .btn-documentos:hover {
+            background-color: var(--primary-dark);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(37, 99, 235, 0.3);
+        }
+
+        .btn-group {
+            margin-top: 30px;
+            display: flex;
+            gap: 12px;
+        }
+
+        .boton-volver {
+            display: inline-block;
+            margin-top: 20px;
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: 500;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .boton-volver:hover {
+            color: var(--primary-dark);
+            text-decoration: underline;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .upload-container {
+                padding: 30px;
+                margin: 20px auto;
+            }
+            
+            .btn-group {
+                flex-direction: column;
+            }
+            
+            .btn-cancel {
+                margin-left: 0;
+                margin-top: 10px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .upload-container {
+                padding: 20px;
+                margin: 15px;
+            }
+            
+            h1 {
+                font-size: 1.6rem;
+            }
+            
+            .file-upload-button, 
+            .btn-documentos,
+            .btn {
+                padding: 10px 16px;
+                font-size: 14px;
+                width: 100%;
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav id="menu">
+        <div class="logo">
+            <i class="fas fa-heartbeat"></i>
+            <span>BioMed</span>
+        </div>
+        <ul>
+            <!-- Se llenará dinámicamente con JavaScript -->
+        </ul>
+    </nav>
+    
+    <div class="upload-container">
+        <h1><i class="fas fa-file-upload"></i> Subir Documentos</h1>
+        <p>Puedes subir archivos PDF o imágenes (JPEG, PNG, GIF) con un tamaño máximo de 10MB.</p>
+        
+        <form action="/subir-pdf" method="POST" enctype="multipart/form-data">
+            <div class="file-upload-wrapper">
+                <label class="file-upload-button">
+                    <i class="fas fa-file"></i> Seleccionar Archivo
+                    <input type="file" id="pdfFile" name="pdfFile" class="file-upload-input" accept=".pdf,.jpg,.jpeg,.png,.gif" required>
+                </label>
+                <div id="file-name" class="file-upload-name">Ningún archivo seleccionado</div>
+            </div>
+            
+            <div class="preview-container" id="preview-container" style="display: none;">
+                <h3>Vista Previa</h3>
+                <div id="image-preview">
+                    <img id="preview-image" class="preview-image" src="#" alt="Vista previa de la imagen">
+                </div>
+                <div id="pdf-preview">
+                    <iframe id="preview-pdf" class="preview-pdf" src="#" frameborder="0"></iframe>
+                </div>
+            </div>
+            
+            <div class="btn-group">
+                <button type="submit" class="btn btn-primary"><i class="fas fa-upload"></i> Subir Documento</button>
+                <button type="button" onclick="window.location.href='/ver-documentos'" class="btn btn-cancel"><i class="fas fa-times"></i> Cancelar</button>
+            </div>
+
+            <div class="documentos-section">
+                <h2><i class="fas fa-folder-open"></i> Mis Documentos</h2>
+                <a href="/ver-documentos" class="btn-documentos"><i class="fas fa-eye"></i> Ver mis documentos</a>
+            </div>
+        </form>
+        <a href="/" class="boton-volver"><i class="fas fa-arrow-left"></i> Volver al inicio</a>
+    </div>
+    
+    <script>
+        document.getElementById('pdfFile').addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if (!file) return;
+            
+            document.getElementById('file-name').textContent = file.name;
+            const previewContainer = document.getElementById('preview-container');
+            previewContainer.style.display = 'block';
+            
+            // Ocultar ambos previews primero
+            document.getElementById('image-preview').style.display = 'none';
+            document.getElementById('pdf-preview').style.display = 'none';
+            
+            if (file.type.match('image.*')) {
+                // Es una imagen
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const previewImage = document.getElementById('preview-image');
+                    previewImage.src = e.target.result;
+                    document.getElementById('image-preview').style.display = 'block';
+                }
+                reader.readAsDataURL(file);
+            } else if (file.type === 'application/pdf') {
+                // Es un PDF
+                const fileURL = URL.createObjectURL(file);
+                const previewPdf = document.getElementById('preview-pdf');
+                previewPdf.src = fileURL;
+                document.getElementById('pdf-preview').style.display = 'block';
+            }
+        });
+    </script>
+</body>
+</html>
