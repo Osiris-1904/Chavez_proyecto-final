@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Iniciar Sesión</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="login-container">
+    <div class="login-form_area">
+      <p class="login-title">INICIAR SESIÓN</p>
+      <form action="/login" method="POST">
+        <div class="login-form_group">
+          <label class="login-sub_title" for="nombre_usuario">Nombre de Usuario:</label>
+          <input placeholder="Ingresa tu nombre de usuario" class="login-form_style" type="text" id="nombre_usuario" name="nombre_usuario" required>
+        </div>
+        <div class="login-form_group">
+          <label class="login-sub_title" for="password">Contraseña:</label>
+          <input placeholder="Ingresa tu contraseña" id="password" class="login-form_style" type="password" name="password" required>
+        </div>
+        <div>
+          <button type="submit" class="login-btn">INICIAR SESIÓN</button>
+          <p>¿No tienes cuenta? <a class="login-link" href="/registro.html">Regístrate aquí</a></p>
+        </div>
+      </form>
+    </div>
+  </div>
+</body>
+</html>
